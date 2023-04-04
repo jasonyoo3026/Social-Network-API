@@ -31,10 +31,9 @@ const thoughtController = {
         { $set: req.body },
         { runValidators: true, new: true }
       );
-
       updatedThought
         ? res.json(updatedThought)
-        : res.status(404).json({ message: "No thought by ID" });
+        : res.status(404).json({ message: "Oops!..No thought by ID" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -46,7 +45,7 @@ const thoughtController = {
 
       thought
         ? res.json(thought)
-        : res.status(404).json({ message: "No thought with this ID" });
+        : res.status(404).json({ message: "Sorry..No thought with this ID" });
     } catch (err) {
       res.status(400).json(err);
     }
@@ -57,14 +56,14 @@ const thoughtController = {
       const thought = await Thought.findOneAndDelete({ _id: req.params.id });
 
       if (!thought) {
-        res.status(404).json({ message: "No thought with that ID" });
+        res.status(404).json({ message: "Sorry..No thought with this ID" });
       } else {
         await User.findOneAndUpdate(
           { _id: req.body.userID },
           { $pull: { thoughts: thought._id } },
           { new: true }
         );
-        res.json({ message: "Thought and association deleted!" });
+        res.json({ message: "Congrats! you have successfully deleted the thought!" });
       }
     } catch (err) {
       res.status(500).json(err);
@@ -78,10 +77,9 @@ const thoughtController = {
         { $addToSet: { reactions: req.body } },
         { runValidators: true, new: true }
       );
-
       thought
         ? res.json(thought)
-        : res.status(404).json({ message: "No thought found with that ID" });
+        : res.status(404).json({ message: "No thought found with the ID that you have entered"});
     } catch (err) {
       res.status(500).json(err);
     }
@@ -97,7 +95,7 @@ const thoughtController = {
 
       thought
         ? res.json(thought)
-        : res.status(404).json({ message: "No thought found with that ID" });
+        : res.status(404).json({ message: "No thought with the ID that you have provided with" });
     } catch (err) {
       res.status(500).json(err);
     }

@@ -43,7 +43,7 @@ const userController = {
         res.status(404).json({ message: "No user with that ID" });
       } else {
         await Thought.deleteMany({ _id: { $in: user.thoughts } });
-        res.json({ message: "User and associated thoughts deleted!" });
+        res.json({ message: "User and associated thoughts deleted successfully!" });
       }
     } catch (err) {
       res.status(500).json(err);
@@ -53,10 +53,9 @@ const userController = {
   getUserById: async (req, res) => {
     try {
       const user = await User.findOne({ _id: req.params.id });
-
       user
         ? res.json(user)
-        : res.status(404).json({ message: "No user with that ID" });
+        : res.status(404).json({ message: "No user with this ID" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -69,7 +68,6 @@ const userController = {
         { $addToSet: { friends: req.params.friendsId } },
         { runValidators: true, new: true }
       );
-
       user
         ? res.json(user)
         : res.status(404).json({ message: "No friend found with that ID" });
