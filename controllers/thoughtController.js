@@ -13,12 +13,12 @@ const thoughtController = {
   createThought: async (req, res) => {
     try {
       const newThought = await Thought.create(req.body);
-      await User.findOneAndUpdate(
+      const updatedUser = await User.findOneAndUpdate(
         { _id: req.body.userID },
         { $push: { thoughts: newThought._id } },
         { new: true }
       );
-      res.json(newThought);
+      res.json({ message: "This thought has been created!", user: updatedUser });
     } catch (err) {
       res.status(500).json(err);
     }
