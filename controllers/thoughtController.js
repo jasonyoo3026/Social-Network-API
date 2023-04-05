@@ -14,7 +14,7 @@ const thoughtController = {
     try {
       const newThought = await Thought.create(req.body);
       const updatedUser = await User.findOneAndUpdate(
-        { _id: req.body.userID },
+        { _id: req.body.userId },
         { $push: { thoughts: newThought._id } },
         { new: true }
       );
@@ -59,7 +59,7 @@ const thoughtController = {
         res.status(404).json({ message: "Sorry..No thought with this ID" });
       } else {
         await User.findOneAndUpdate(
-          { _id: req.body.userID },
+          { _id: req.body.userId },
           { $pull: { thoughts: thought._id } },
           { new: true }
         );
