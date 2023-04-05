@@ -92,7 +92,6 @@ const thoughtController = {
         { $pull: { reactions: { reactionId: req.params.reactionId } } },
         { runValidators: true, new: true }
       );
-
       thought
         ? res.json(thought)
         : res.status(404).json({ message: "No thought with the ID that you have provided with" });
